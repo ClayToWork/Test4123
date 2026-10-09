@@ -11,8 +11,8 @@
 // Map binary image with related metadata 
 typedef struct {
     unsigned char *image;
-    int width;
-    int height;
+    unsigned int width;
+    unsigned int height;
     float top_left_lat;
     float top_left_lon;
     float bottom_right_lat;
@@ -49,6 +49,14 @@ typedef struct {
 
 // Return current library version.
 const version_t get_library_version(void);
+
+
+// Free memory allocated by load_map.
+void free_map(peace_of_map_t *map);
+
+
+// Free memory allocated by load_stations.
+void free_stations(stations_list_t *stations);
 
 
 // Load map image (BMP) linked to the geographical coordinates.
