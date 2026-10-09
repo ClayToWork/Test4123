@@ -1,11 +1,11 @@
-run: example
-	./example map_1.bmp map_1.csv stations_1.csv
+example.exe: example_src/example.c libstationmapper.dll
+	gcc -L. -o example.exe example_src/example.c -lstationmapper
+
+run: example.exe
+	./example.exe data/map_1.bmp data/map_1.csv data/stations_1.csv
 
 stationmapper.o: src/stationmapper.c
 	gcc -c -fpic src/stationmapper.c
 
-libstationmapper.so: stationmapper.o
-	gcc -shared -o libstationmapper.so stationmapper.o
-
-example: example_src/example.c libstationmapper.so
-	gcc -L. -o example example_src/example.c -lstationmapper
+libstationmapper.dll: stationmapper.o
+	gcc -shared -o libstationmapper.dll stationmapper.o
