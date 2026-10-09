@@ -6,7 +6,7 @@
 #include "../include/stationmapper.h"
 
 
-int main(int argc, char *argv[])
+int main(void)
 {
     printf("--------------------------------------------------------------------------\n");
     printf("This is example for stationmapper library.\n");
@@ -21,15 +21,10 @@ int main(int argc, char *argv[])
     version_t version = get_library_version();
     printf("Using stationmapper %d.%d.%d\n", version.major, version.minor, version.patch);
 
-    if (argc < 4) {
-        printf("Usage: %s <map.bmp> <map.csv> <stations.csv>\n", argv[0]);
-        return 1;
-    }
-
     // Load map and stations list
-    peace_of_map_t map = load_map(argv[1], argv[2]);
+    peace_of_map_t map = load_map("input/map.bmp", "input/map.csv");
     if (map.image == NULL) return 1;
-    stations_list_t stations = load_stations(argv[3]);
+    stations_list_t stations = load_stations("input/stations.csv");
     if (stations.num_stations == 0) {
         free_map(&map);
         free_stations(&stations);
@@ -39,10 +34,20 @@ int main(int argc, char *argv[])
     // Get user's location
     float user_lat = 55.655;
     float user_lon = 37.252;
-    // printf("Enter your latitude (example: 55.655)\n");
-    // scanf("%f", &user_lat);
-    // printf("Enter your longitude (example: 37.252)\n");
-    // scanf("%f", &user_lon);
+    printf("Enter your latitude (from %.4f to %.4f)\n", map.bottom_right_lat, map.top_left_lat);
+    if (scanf("%f", &user_lat) != 1 || !(user_lat >= map.bottom_right_lat && user_lat <= map.top_left_lat)) {
+        printf("Incorrect latitude, expected a number from %.4f to %.4f\n", map.bottom_right_lat, map.top_left_lat);
+        free_map(&map);
+        free_stations(&stations);
+        return 1;
+    }
+    printf("Enter your longitude (from %.4f to %.4f)\n", map.top_left_lon, map.bottom_right_lon);
+    if (scanf("%f", &user_lon) != 1 || !(user_lon >= map.top_left_lon && user_lon <= map.bottom_right_lon)) {
+        printf("Incorrect longitude, expected a number from %.4f to %.4f\n", map.top_left_lon, map.bottom_right_lon);
+        free_map(&map);
+        free_stations(&stations);
+        return 1;
+    }
 
     // Draw all stations
     for (int i = 0; i < stations.num_stations; i++) {
