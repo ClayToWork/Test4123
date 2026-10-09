@@ -14,7 +14,7 @@
 Сборка библиотеки:
 
 ```
-make libstationmapper.so
+make libstationmapper.dll
 ```
 
 Сборка примера:
