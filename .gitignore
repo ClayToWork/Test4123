@@ -53,3 +53,9 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Output
+map_out.bmp
+
+# VS Code
+.vscode/
