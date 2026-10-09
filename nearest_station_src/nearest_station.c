@@ -70,6 +70,11 @@ int main(void)
 		printf("Failed to save %s, error code: %d\n", output_map_name, err);
     else
         printf("Output map image %s generated\n", output_map_name);
+        
+    printf("Press Enter to exit...\n");
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    getchar();
 
     // Cleanup
     free_map(&map);
